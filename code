@@ -1,0 +1,84 @@
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLineEdit, QLabel
+from PyQt5.QtCore import Qt
+
+import statistics
+
+class ScientificCalculator(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+
+    def initUI(self):
+        self.layout = QVBoxLayout()
+
+        self.label = QLabel('Enter a list of numbers separated by spaces:')
+        self.layout.addWidget(self.label)
+
+        self.line_edit = QLineEdit()
+        self.layout.addWidget(self.line_edit)
+
+        self.mean_button = QPushButton('Mean')
+        self.mean_button.clicked.connect(self.calculate_mean)
+        self.layout.addWidget(self.mean_button)
+
+        self.median_button = QPushButton('Median')
+        self.median_button.clicked.connect(self.calculate_median)
+        self.layout.addWidget(self.median_button)
+
+        self.mode_button = QPushButton('Mode')
+        self.mode_button.clicked.connect(self.calculate_mode)
+        self.layout.addWidget(self.mode_button)
+
+        self.variance_button = QPushButton('Variance')
+        self.variance_button.clicked.connect(self.calculate_variance)
+        self.layout.addWidget(self.variance_button)
+
+        self.std_dev_button = QPushButton('Standard Deviation')
+        self.std_dev_button.clicked.connect(self.calculate_std_dev)
+        self.layout.addWidget(self.std_dev_button)
+
+        self.result_label = QLabel('Result:')
+        self.result_label.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.result_label)
+
+        self.setLayout(self.layout)
+
+        self.setGeometry(300, 300, 300, 200)
+        self.setWindowTitle('Scientific Calculator')
+        self.show()
+
+    def calculate_mean(self):
+        numbers = self.get_numbers()
+        result = statistics.mean(numbers)
+        self.result_label.setText(f'Result: {result}')
+
+    def calculate_median(self):
+        numbers = self.get_numbers()
+        result = statistics.median(numbers)
+        self.result_label.setText(f'Result: {result}')
+
+    def calculate_mode(self):
+        numbers = self.get_numbers()
+        result = statistics.mode(numbers)
+        self.result_label.setText(f'Result: {result}')
+
+    def calculate_variance(self):
+        numbers = self.get_numbers()
+        result = statistics.variance(numbers)
+        self.result_label.setText(f'Result: {result}')
+
+    def calculate_std_dev(self):
+        numbers = self.get_numbers()
+        result = statistics.stdev(numbers)
+        self.result_label.setText(f'Result: {result}')
+
+    def get_numbers(self):
+        text = self.line_edit.text()
+        return [float(num) for num in text.split()]
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = ScientificCalculator()
+    sys.exit(app.exec_())
